@@ -1,4 +1,4 @@
-###Linear_regression:time frame
+###Functions for time serie maker
 
 ## source
 #source("Linear_regression.R")
