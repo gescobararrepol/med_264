@@ -1,0 +1,12 @@
+### homework from other years
+
+library(tidyverse)
+
+### filter table 
+
+table <- read.csv("5Dec_merged_dataset_all_years.csv")
+
+table %>% filter(state_name == "California", year == "2015") -> metadata_2015
+
+write.csv(metadata_2015, "metadata_CA_2015.csv")
+

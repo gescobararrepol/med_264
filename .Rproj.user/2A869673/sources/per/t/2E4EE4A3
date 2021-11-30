@@ -1,0 +1,32 @@
+{
+    "id": "2E4EE4A3",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1638165684012.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "expression": "master_table",
+        "caption": "master_table",
+        "totalObservations": "58",
+        "displayedObservations": "58",
+        "variables": "17",
+        "cacheKey": "D44E8688",
+        "object": "master_table",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=master_table&cache_key=D44E8688&max_cols=50",
+        "preview": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 19140590477770807,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1638165684012,
+    "read_only": false,
+    "read_only_alternatives": []
+}
