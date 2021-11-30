@@ -1,11 +1,18 @@
-## 
+###Incidence and Mortality for different demographic variables overtime
+
+##Load libraries
 library(tidyverse)
 library(ggplot2)
 
-##
+##Load dataset
 covid <- read.csv("https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv")
-vartable <- read.csv("Variables.csv")
+#covid %>% filter(area != "California")
+covid <- covid %>% filter(area != "California")
 
+vartable <- read.csv("Variables.csv")
+vartable <- vartable %>% filter(area != "California")
+
+#Load functions
 source("time_series_maker.R")
 
 ##For incidence

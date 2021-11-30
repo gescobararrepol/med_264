@@ -64,8 +64,11 @@ do.call(rbind.data.frame, results_mort) -> results_mort
 do.call(rbind.data.frame, results_inc) -> results_inc
 
 write.csv(results_mort, "univariate_model_mortality.csv")
-write.csv(results_mort, "univariate_model_incidence.csv")
+write.csv(results_inc, "univariate_model_incidence.csv")
 
-fit <- lm(mtable$diff_incidence ~ mtable$unemployment_2020)
-summary(fit)
+#fit <- lm(mtable$diff_incidence ~ mtable$unemployment_2020)
+#summary(fit)
+
+#fit <- lm(mtable$diff_incidence ~ mtable$nfullyvacc)
+#summary(fit)
 

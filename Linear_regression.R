@@ -3,11 +3,6 @@
 # load libraries
 library(tidyverse)
 library(ggplot2)
-library(zoo) 
-#install.packages("readxl")
-#library(readxl)
-#install.packages("xlsx")
-#library(xlsx)
 
 #Load tables for covid outcome per county in CA
 covid <- read.csv("https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv")
@@ -224,3 +219,4 @@ timeseries %>%
   scale_y_continuous(name = "Significance(-log10(p-val))", 
                      sec.axis = sec_axis(~.*1, name = "Betas")) +
   theme_classic() + theme(axis.text.x = element_text(size = 5, angle = 90))
+

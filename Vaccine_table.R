@@ -13,7 +13,7 @@ dates <- vaccine$administered_date %>% table %>% names() ## all dates
 last_day = max(dates)
 vaccine %>% filter(administered_date == last_day) -> last_vaccine
 
-# Make Dataframe
+# Make Dataframe for vaccine
 frame_vacc <- data.frame(
   area = last_vaccine$county,
   fullyvacc = last_vaccine$cumulative_fully_vaccinated

@@ -1,12 +1,15 @@
-###Linear Regression 3
+###Create table with demographic variables 
+
+#Load library 
 library(tidyverse)
-###Supreme Master Table
+
+###Load tables with demographic variables
 hhold <- read.csv("UnemploymentReport_ge.csv", 
                   sep = ";", 
                   skip = 2, #remove first 2 rows
                   header = TRUE, check.names = FALSE)
 poverty <- read.csv("PovertyReport.csv", sep = ";")
-#rural <- read.csv("ruralurbancodes.csv", sep = ";")
+#rural <- read.csv("ruralurbancodes.csv", sep = ";") #not necessary 
 education <- read.csv("EducationReport.csv", sep = ";", check.names = FALSE)
 vaccine <- read.csv("https://data.chhs.ca.gov/dataset/e283ee5a-cf18-4f20-a92c-ee94a2866ccd/resource/130d7ba2-b6eb-438d-a412-741bde207e1c/download/covid19vaccinesbycounty.csv")
 
@@ -32,7 +35,7 @@ education$`2015-2019` %>% gsub(pattern = "%", "", .) %>% as.numeric() -> educati
 vaccine$county %>% table %>% names
 
 
-### mega table
+###Merge variable tables
 
 TheMasterTable <- merge(hhold, poverty,
                         by.x = "area", by.y = "Name")
