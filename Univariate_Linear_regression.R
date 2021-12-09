@@ -1,4 +1,4 @@
-###Univariate Linear Regression 
+###Univariate Linear Regression v2
 
 # load libraries
 library(tidyverse)
@@ -13,6 +13,10 @@ mtable <- read.csv("Master_Table.csv")
 
 #normalize fully vacc by population
 mtable$nfullyvacc <- mtable$fullyvacc/mtable$population
+
+#multiply incidence and mortality by 100,000
+mtable$diff_incidence <- mtable$diff_incidence*100000
+mtable$diff_mortality <- mtable$diff_mortality*100000
 
 #organize master table
 mtable <- mtable %>% relocate(diff_deaths, FIPS, diff_test, .after = population)
@@ -30,16 +34,14 @@ for (v in colnames(mtable)[-c(1:9)]) {
 summary(models[[1]])
 coef(models[[1]])[2] ## beta
 summary(models[[1]])$adj.r.squared ## r.square
-summary(models[[1]])$coefficients[2,4] ## p-val
+-log10(summary(models[[1]])$coefficients[2,4]) ## p-val
 
 sapply(models, function(x) data.frame(
   #name = names(x),
   beta = unname(coef(x)[2]),
   rsq = unname(summary(x)$adj.r.squared),
-  pval = unname(summary(x)$coefficients[2,4])
+  pval = unname(-log10(summary(x)$coefficients[2,4]))
 )) %>% t %>% as.data.frame -> results_inc
-
-
 
 ## Iteration for mortality
 models = list()
@@ -51,13 +53,13 @@ for (v in colnames(mtable)[-c(1:9)]) {
 summary(models[[1]])
 coef(models[[1]])[2] ## beta
 summary(models[[1]])$adj.r.squared ## r.square
-summary(models[[1]])$coefficients[2,4] ## p-val
+-log10(summary(models[[1]])$coefficients[2,4]) ## p-val
 
 sapply(models, function(x) data.frame(
   #name = names(x),
   beta = unname(coef(x)[2]),
   rsq = unname(summary(x)$adj.r.squared),
-  pval = unname(summary(x)$coefficients[2,4])
+  pval = unname(-log10(summary(x)$coefficients[2,4]))
 )) %>% t %>% as.data.frame -> results_mort
 
 do.call(rbind.data.frame, results_mort) -> results_mort
@@ -66,9 +68,61 @@ do.call(rbind.data.frame, results_inc) -> results_inc
 write.csv(results_mort, "univariate_model_mortality.csv")
 write.csv(results_inc, "univariate_model_incidence.csv")
 
-#fit <- lm(mtable$diff_incidence ~ mtable$unemployment_2020)
-#summary(fit)
+##Compare incidence and rurality per density population
 
-#fit <- lm(mtable$diff_incidence ~ mtable$nfullyvacc)
-#summary(fit)
+#make binary variable for rural codes
+mtable$Rural <-  ifelse(mtable$RUC_Code==1, 2,ifelse(mtable$RUC_Code==2, 2, 
+                                                     ifelse(mtable$RUC_Code==3, 1,
+                                                            ifelse(mtable$RUC_Code==4, 1,
+                                                                   ifelse(mtable$RUC_Code==5, 1,
+                                                                          ifelse(mtable$RUC_Code==6, 1,
+                                                                                 ifelse(mtable$RUC_Code==7, 1,0)))))))
+sum(mtable$Rural==2)
+sum(mtable$Rural==1)
+sum(mtable$Rural==0)
+
+#significant
+-log10(0.05)
+
+#Rural as categorical variable
+mtable$Rural <- as.factor(mtable$Rural)
+
+#boxplot(mtable$diff_incidence ~ mtable$Rural,xlab = "Rurality",
+ #       ylab = "Incidence per 100,000")
+
+#Boxplot for incidence vs Pop density
+mtable %>% ggplot() +
+  aes(x = Rural, y = diff_incidence, fill = Rural) +
+  geom_boxplot() + 
+  ylab("Incidence per 100,000") + xlab("Population density") +
+  theme_bw() + theme(text = element_text(size = 30), legend.position = "none")
+#ggsave(last_plot(), "boxplot1.png", width = 5, height = 5, device = "png")
+
+#statistical test for incidence vs population density
+kruskal.test(mtable$diff_incidence ~ mtable$Rural)
+
+#pairewise comparison
+pairwise.wilcox.test(mtable$diff_incidence , mtable$Rural,
+                     p.adjust.method = "BH")
+
+#boxplot(mtable$diff_incidence ~ mtable$Rural,xlab = "Rurality",
+#       ylab = "Incidence per 100,000")
+
+
+#Boxplot for mortality vs Pop density
+mtable %>% ggplot() +
+  aes(x = Rural, y = diff_mortality, fill = Rural) +
+  geom_boxplot() + 
+  ylab("Mortality per 100,000") + xlab("Population density") +
+  theme_bw() + theme(text = element_text(size = 30), legend.position = "none")
+#ggsave(last_plot(), "boxplot1.png", width = 5, height = 5, device = "png")
+
+#statistical test for incidence vs population density
+kruskal.test(mtable$diff_mortality ~ mtable$Rural)
+
+#pairewise comparison
+pairwise.wilcox.test(mtable$diff_mortality , mtable$Rural,
+                     p.adjust.method = "BH")
+
+
 

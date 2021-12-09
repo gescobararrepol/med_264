@@ -1,0 +1,14 @@
+;cases;deaths;Tests;Vaccinated;Poverty_all;Poverty_17;Househol_income;High_education;
+Median;5139.5;48.5;120935.5;108449.5;12.65;16.3;63745;24.05;
+IQR;14206;162.75;465310.25;400057.25;16.45;21.55;84050.75;35.175;
+;;;;;;;;;
+;;;;;;;;;
+;;;;;;;;Median;IQR
+;;;;;;;Number of cases;5139.5;14206
+;;;;;;;Numer of deaths;48.5;162.75
+;;;;;;;Number of Tests;120935.5;465310.25
+;;;;;;;Number of fully vaccinated;108449.5;400057.25
+;;;;;;;% Living in poverty (all population);12.65;16.45
+;;;;;;;% Living in Poverty (<17);16.3;21.55
+;;;;;;;Househol income;63745;84050.75
+;;;;;;;% People completed college;24.05;35.175

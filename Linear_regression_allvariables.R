@@ -40,7 +40,12 @@ for (v in names(sapply(table_list, function(x) colnames(names(x))))){
 }
 ## combine
 ctable <- do.call("rbind", table_list)
-
+## filter
+ctable <- ctable %>% filter(var != 'hhold_income' & var != 'poverty_17' & var!= 'RUC_Code')
+ctable$var <- ifelse(ctable$var == "unemployment_2020", "% unemployment", ctable$var)
+ctable$var <- ifelse(ctable$var == "perc_income", "% Income", ctable$var)
+ctable$var <- ifelse(ctable$var == "hi_edu", "% college completed", ctable$var)
+ctable$var <- ifelse(ctable$var == "poverty_all", "% poverty", ctable$var)
 
 ### big ggplot
 plot_time(ctable, adjv = 10) + facet_grid(. ~ var) + geom_hline(yintercept = -log10(0.05), color = "red", linetype = "dashed")
@@ -63,8 +68,13 @@ for (v in names(sapply(table_list, function(x) colnames(names(x))))){
 ## combine
 ctable <- do.call("rbind", table_list)
 
-
+## filter
+ctable <- ctable %>% filter(var != 'hhold_income' & var != 'poverty_17' & var!= 'RUC_Code')
+ctable$var <- ifelse(ctable$var == "unemployment_2020", "% unemployment", ctable$var)
+ctable$var <- ifelse(ctable$var == "perc_income", "% Income", ctable$var)
+ctable$var <- ifelse(ctable$var == "hi_edu", "% college completed", ctable$var)
+ctable$var <- ifelse(ctable$var == "poverty_all", "% poverty", ctable$var)
 ### big ggplot
-plot_time(ctable, adjv = 100) + facet_grid(. ~ var) + geom_hline(yintercept = -log10(0.05), color = "red", linetype = "dashed")
+plot_time(ctable, adjv = 1000) + facet_grid(. ~ var) + geom_hline(yintercept = -log10(0.05), color = "red", linetype = "dashed")
 ggsave(last_plot(), filename = "Mortality_per_variable.png", height = 4, width = 8, dpi = 300)
 
