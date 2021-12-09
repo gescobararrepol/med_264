@@ -8,6 +8,7 @@ hhold <- read.csv("UnemploymentReport_ge.csv",
                   sep = ";", 
                   skip = 2, #remove first 2 rows
                   header = TRUE, check.names = FALSE)
+unem <- read.csv("Unemployment2021.csv", sep = ";")#unemployment 2021
 poverty <- read.csv("PovertyReport.csv", sep = ";")
 #rural <- read.csv("ruralurbancodes.csv", sep = ";") #not necessary 
 education <- read.csv("EducationReport.csv", sep = ";", check.names = FALSE)
@@ -24,6 +25,11 @@ gsub("\\$", "",
      hhold$`Median Household Income (2019)`) %>% 
   gsub("\\,", "", .) %>% as.numeric() -> hhold$hhold_income
 
+#unem
+gsub("%",'' ,unem$RATE) %>% as.numeric() -> unem$RATE
+colnames(unem)[1] <- "area"
+unem <- unem[,c("area", "RATE")]
+
 #poverty
 poverty$Name %in% hhold$area
 
@@ -39,11 +45,13 @@ vaccine$county %>% table %>% names
 
 TheMasterTable <- merge(hhold, poverty,
                         by.x = "area", by.y = "Name")
+TheMasterTable <- merge(TheMasterTable, unem, 
+                        by = "area")
 TheMasterTable <- merge(TheMasterTable, education,
                         by= "area")
 TheMasterTable<-  TheMasterTable[,c("area",
                   "FIPS",
-                  "2020",
+                  "RATE",
                   "perc_income",
                   "hhold_income",
                   "RUC_Code",
