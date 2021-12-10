@@ -8,5 +8,4 @@ Gissselle Escobar
 - 5) Script `Master_Table.R`: Merge tables with demographic variables, accumulated fully vaccinated people, and outcome for time frame Aug01-Today. 
 - 6) Script `Univariate_Linear_Regression.R`: Univariate linear model for all variables in master table. Create table with p-values, beta and R-squared. 
 - 7) Script `Multiple_Linear_Regression.R`: Fit Multiple linear model. 
-
-.
+- 8) Script `Multiple_Linear_Regression_vaccines.R`: Fit Multiple linear model with vaccinated population variable included.
